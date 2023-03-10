@@ -1,0 +1,63 @@
+'use strict'
+
+const dayjs = require('dayjs');
+
+function Film(id,title,favorites,date = undefined,rating = undefined){
+    
+    this.id = id;
+    this.title = title;
+    this.favorites = favorites;
+    this.date = dayjs(date).format("MMMM DD,YYYY");
+    this.rating = rating;
+
+}
+function FilmLibrary(arrayFilm){
+
+    this.arrayFilm = arrayFilm;
+    this.addNewFilm = function(film){
+        this.arrayFilm.push(film);
+    };
+
+    this.print= (array = arrayFilm) =>{
+        return array.forEach(x => console.log(`Id: ${x.id}, Title: ${x.title}, Favorite: ${x.favorites}, Watch date: ${x.date}, Score ${x.score}`));
+    };
+    this.sortByDate= ()=>{
+        return [...this.arrayFilm].sort((a,b) => {
+            if(a.date === undefined ) return 1; // a is greater than b ascending
+            if(b.date === undefined ) return -1; // a is less than b
+            return (dayjs(a.date).isAfter(b.date) ? 1 : -1);
+        });
+    };
+    this.deleteFilm = (id) => {
+        //splice to remove element
+        const objectFound = arrayFilm.filter(x => x.id === id)[0];
+        const index = arrayFilm.indexOf(objectFound);
+        arrayFilm.splice(index,1);  //remove 1 element at index index
+    };
+    this.resetWatchedFilms = () => {
+        return arrayFilm.forEach(x => x.date = undefined);
+    };
+    this.getRated = () => {
+        return [...this.arrayFilm].filter( x => x.rating !== undefined ).sort((a,b) => (b.rating-a.rating)).forEach(y => console.log(`Id: ${y.id}, Title: ${y.title}, Favorite: ${y.favorites}, Watch date: ${y.date}, Score ${y.score}`));
+    }//  > 0	sort a after b ____________________  < 0	sort a before b
+}
+
+const film1 = new Film(1,"Pulp Fiction",true,'2023-03-10', 5);
+const film2 = new Film(2,"21 Grams",true,'2023-03-17', 4);
+const film3 = new Film(3,"Star Wars", false,'2023-03-10', 5);
+const film4 = new Film(4,"Matrix",false);
+const film5 = new Film(5,"Shrek",false,"2023-03-21",2);
+
+const library = new FilmLibrary([]);
+library.addNewFilm(film1);
+library.addNewFilm(film2);
+library.addNewFilm(film3);
+library.addNewFilm(film4);
+library.addNewFilm(film5);
+console.log("***** List of films *****");
+console.log(library.print());
+library.deleteFilm(1);
+console.log("***** Films filtered, only the rated ones *****");
+console.log(library.getRated());
+
+library.resetWatchedFilms();
