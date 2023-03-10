@@ -1,0 +1,27 @@
+/*
+Create a function that, given an array of strings, for each string computes and prints a new one composed by
+the first two and last two characters. For instance, ‘spring’ yields ‘spng’. 
+*/
+'use strict'
+
+const arrayString =[ "ciccio", "caio", "sempronio","io","i"];
+let arrayNew = [];
+var buffer = [];
+
+for (const s of arrayString){
+
+    if(s.length < 2){
+       arrayNew.push("");
+    } else {
+    buffer = [];
+    buffer.push(s[0]);
+    buffer.push(s[1]);
+    buffer.push(s[s.length-2]);
+    buffer.push(s[s.length-1]);
+    buffer = buffer.join('');
+    arrayNew.push(buffer);
+    }
+}
+console.log(arrayNew);
+
+
